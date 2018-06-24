@@ -1,5 +1,7 @@
 # Synonym Spectra
 
+Twitter account: [@SynonymSpectra](https://twitter.com/SynonymSpectra)
+
 This code powers a Twitter account which posts chains of synonyms, which lead
 from a source word to its antonym: a spectrum of words.
 
