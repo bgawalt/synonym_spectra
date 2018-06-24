@@ -78,7 +78,15 @@ Ongoing, continuing, last, past.
 Like a lot of my bots, I set up a text file, `spectra.config`, to manage the
 details of posting.  It looks like:
 
-TODO: describe this
+```
+CONSUMER_KEY = [app key]
+CONSUMER_SECRET = [app secret]
+ACCESS_SECRET = [account secret]
+ACCESS_KEY = [account key]
+```
+
+Those four fields are parsed and used to create a Tweepy Twitter API object,
+which is used to post the spectra to the account.
 
 Secret, clandestine, fraudulent, unfair, raw, overt.
 

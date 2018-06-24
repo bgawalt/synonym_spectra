@@ -7,6 +7,7 @@ $ python post_spectrum.py spectra.config spectra.db
 import random
 import sqlite3
 import sys
+import tweepy
 
 
 # Select a random low-post-count spectrum.
@@ -113,6 +114,34 @@ def FormatTweet(chain, chain_distance):
     return random.choice(candidates)
 
 
+def GetTweepyConfig(config_filename):
+    """Returns dictionary with auth details for building a Tweepy API object."""
+    with open(config_filename, "r") as infile:
+        config = {}
+        for line in infile:
+            spline = line.split(" = ")
+            config[spline[0]] = spline[1].strip()
+    return config
+
+
+def GetTweepyAuth(config_file):
+    config = GetTweepyConfig(config_file)
+    ckey = config["CONSUMER_KEY"]
+    csec = config["CONSUMER_SECRET"]
+    akey = config["ACCESS_KEY"]
+    asec = config["ACCESS_SECRET"]
+    auth = tweepy.OAuthHandler(ckey, csec)
+    auth.set_access_token(akey, asec)
+    return auth
+
+
+def TweetChain(chain, tweepy_config_filename):
+    auth = GetTweepyAuth(tweepy_config_filename)
+    api = tweepy.API(auth)
+    status = api.update_status(status=chain)
+    return status.id_str
+
+
 def IncrementPostCount(db_cursor, chain_id):
     db_cursor.execute(POST_COUNT_UPDATE_QUERY, (chain_id,))
 
@@ -125,8 +154,15 @@ if __name__ == "__main__":
     db = sqlite3.connect(db_file)
     db_cur = db.cursor()
     chain_id, chain_distance, chain = FetchSpectrum(db_cur)
-    print '\n', FormatTweet(chain, chain_distance), '\n'
-
-    #IncrementPostCount(db_cur, chain_id)
+    tweet = None
+    count = 10
+    while tweet is None:
+        count -= 1
+        if count == 0:
+            raise ValueError("Couldn't make a tweeet!")
+        tweet = FormatTweet(chain, chain_distance)
+        print tweet
+    print TweetChain(tweet, config_file)
+    IncrementPostCount(db_cur, chain_id)
     db.commit()
     db.close()
