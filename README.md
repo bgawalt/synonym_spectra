@@ -66,10 +66,10 @@ by hopping synonym edges.  I got to build a priority queue!  Then I told my
 wife about it and she said why didn't I just use breadth-first search since the
 edges were all unweighted.  And I had no good answer for her.  Oh well.
 
-Looking at this now, Djikstra's was probably the wrong way to go.  Encouraging
-short chains seems like it also encourages using the most tenuous synonym-links
-available.  Maybe I'll relax that shortness constraint some day and see what
-unfolds.
+Looking at this now, shortest path was probably the wrong way to go.  
+Encouraging short chains seems like it also encourages using the most tenuous
+synonym-links available.  Maybe I'll relax that shortness constraint some day
+and see what unfolds.
 
 Ongoing, continuing, last, past.
 
@@ -105,3 +105,6 @@ wsgiref==0.1.2
 ```
 
 Order, management, control, subdue, overpower, rout, uproar, pandemonium, chaos.
+
+Photo credit for the twitter account's profile and header:
+[Mark Deckers.](https://www.flickr.com/photos/27454036@N03/17088613409/)

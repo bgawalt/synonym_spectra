@@ -40,6 +40,9 @@ def ChainStringToList(chain_str):
     sp_chain = chain.split()
     sp_chain[0] = sp_chain[0].upper()
     sp_chain[-1] = sp_chain[-1].upper()
+    if random.random() < 0.5:
+        print 'reversed!'
+        sp_chain = sp_chain[::-1]
     return sp_chain
 
 
@@ -63,23 +66,37 @@ def ColonsChain(chain):
     return " :: ".join(ChainStringToList(chain))
 
 
-def LinkTermList(chain):
+def LinkTermList(chain, upper_words=True):
     chain_list = ChainStringToList(chain)
     output_list = []
     for ii in range(len(chain_list) - 1):
-        w1 = chain_list[ii].upper()
-        w2 = chain_list[ii + 1].upper()
+        w1 = chain_list[ii]
+        if ii == 0 or upper_words:
+            w1 = w1.upper()
+        w2 = chain_list[ii + 1]
+        if (ii == (len(chain_list) - 1)) or upper_words:
+            w2 = w2.upper()
         linker = random.choice(LINKING_TERMS)
         output_list.append(linker.join((w1, w2)))
     return output_list
 
 
-def LinkTermsChainSingleLine(chain):
-    return "; ".join(LinkTermList(chain))
+def LinkTermsChainSingleLine(chain, upper_words=True):
+    tweet = "; ".join(LinkTermList(chain, upper_words=upper_words))
+    if random.random() < -10.5:
+        return tweet
+    spchain = ChainStringToList(chain)
+    tweet = tweet + "\n\n" + spchain[0].upper() + " = " + spchain[-1].upper()
+    return tweet
 
 
-def LinkTermsChainMultiLine(chain):
-    return "\n".join(LinkTermList(chain))
+def LinkTermsChainMultiLine(chain, upper_words=True):
+    tweet = "\n".join(LinkTermList(chain, upper_words=upper_words))
+    if random.random() < -10.5:
+        return tweet
+    spchain = ChainStringToList(chain)
+    tweet = tweet + "\n\n" + spchain[0].upper() + " = " + spchain[-1].upper()
+    return tweet
 
 
 def LineBreakChain(chain):
@@ -87,19 +104,20 @@ def LineBreakChain(chain):
 
 
 def FormatTweet(chain, chain_distance):
+    up_words = random.random() < 0.5
     single_line_candidates = [
         CommaChain(chain),
         NoOpChain(chain),
         SemicolonChain(chain),
         SpaceListChain(chain),
         ColonsChain(chain),
-        LinkTermsChainSingleLine(chain)
+        LinkTermsChainSingleLine(chain, upper_words=up_words)
     ]
     single_line_candidates = [c for c in single_line_candidates if len(c) < 280]
 
     multi_line_candidates = [
         LineBreakChain(chain),
-        LinkTermsChainMultiLine(chain)
+        LinkTermsChainMultiLine(chain, upper_words=up_words)
     ]
     multi_line_candidates = [c for c in multi_line_candidates if len(c) < 280]
 
@@ -154,6 +172,7 @@ if __name__ == "__main__":
     db = sqlite3.connect(db_file)
     db_cur = db.cursor()
     chain_id, chain_distance, chain = FetchSpectrum(db_cur)
+
     tweet = None
     count = 10
     while tweet is None:
