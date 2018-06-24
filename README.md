@@ -19,7 +19,9 @@ $ python post_spectrum.py spectra.config spectra.db
 ```
 
 where `spectra.config` is the configuration file used and `spectra.db` is the
-Sqlite3 file housing the synonym chains.  More detail on both below
+Sqlite3 file housing the synonym chains.  More detail on both below.
+
+Useful, good, complete, dead, unprofitable, useless.
 
 ## Dependencies
 
