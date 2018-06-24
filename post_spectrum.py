@@ -23,6 +23,9 @@ def FetchSpectrum(db_cursor):
     db_cursor.execute(SPECTRUM_QUERY)
     return db_cursor.fetchone()
 
+def IncrementPostCount(db_cursor, chain_id):
+    db_cursor.execute(POST_COUNT_UPDATE_QUERY, (chain_id,))
+
 if __name__ == "__main__":
     config_file = sys.argv[1]
     db_file = sys.argv[2]
@@ -30,6 +33,8 @@ if __name__ == "__main__":
     # TODO: Try out `with` context:
     db = sqlite3.connect(db_file)
     db_cur = db.cursor()
-    print FetchSpectrum(db_cur)
-
+    chain_id, chain = FetchSpectrum(db_cur)
+    print chain_id, ":", chain
+    IncrementPostCount(db_cur, chain_id)
+    db.commit()
     db.close()

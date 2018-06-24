@@ -71,7 +71,7 @@ unfolds.
 
 Ongoing, continuing, last, past.
 
-## Config file
+### Config file
 
 Like a lot of my bots, I set up a text file, `spectra.config`, to manage the
 details of posting.  It looks like:
@@ -80,7 +80,7 @@ TODO: describe this
 
 Secret, clandestine, fraudulent, unfair, raw, overt.
 
-## Libraries
+### Libraries
 
 I'm using Python 2.7 to run this.
 
