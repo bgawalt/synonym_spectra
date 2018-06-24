@@ -121,7 +121,7 @@ def FormatTweet(chain, chain_distance):
     ]
     multi_line_candidates = [c for c in multi_line_candidates if len(c) < 280]
 
-    if chain_distance < 6 and random.random() < 0.5:
+    if chain_distance < 8 and random.random() < 0.5:
         candidates = multi_line_candidates
     else:
         candidates = single_line_candidates
